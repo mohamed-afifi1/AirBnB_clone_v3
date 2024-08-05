@@ -28,9 +28,6 @@ def status():
 
 @app_views.route('/stats')
 def stats():
-    '''
-    status
-    '''
     count = {}
     for key in hbnb.keys():
         count[key] = storage.count(hbnb[key])
