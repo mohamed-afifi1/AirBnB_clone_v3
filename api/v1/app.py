@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 """This module app.py: Flask application to connect to the API """
 import os
 from flask import Flask, jsonify
