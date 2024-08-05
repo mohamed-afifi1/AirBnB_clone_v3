@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-"""
-api app
-"""
+"""app.py to connect to API"""
 
 import os
 from flask import Flask, jsonify
