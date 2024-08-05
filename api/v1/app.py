@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""app.py to connect to API"""
+""" app.py: Flask application to connect to the API """
 import os
 from flask import Flask, jsonify
 from models import storage
