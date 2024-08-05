@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """app.py to connect to API"""
-
 import os
 from flask import Flask, jsonify
 from models import storage
@@ -13,17 +12,13 @@ app.register_blueprint(app_views)
 
 @app.teardown_appcontext
 def teardown_db(exception):
-    '''
-    teardown
-    '''
+    """teardown_appcontext"""
     storage.close()
 
 
 @app.errorhandler(404)
 def not_found(error):
-    '''
-    not found error handler
-    '''
+    """not found error handler"""
     return jsonify({"error": "Not found"}), 404
 
 
