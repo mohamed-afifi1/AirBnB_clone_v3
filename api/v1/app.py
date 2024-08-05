@@ -22,5 +22,5 @@ def teardown_db(exception):
 
 
 if __name__ == "__main__":
-    app.run(host=os.getenv('HBNB_API_HOST', '0.0.0.0')
-            ,port=int(os.getenv('HBNB_API_PORT', '5000')))
+    app.run(host=os.getenv('HBNB_API_HOST', '0.0.0.0'),
+            port=int(os.getenv('HBNB_API_PORT', '5000')))
