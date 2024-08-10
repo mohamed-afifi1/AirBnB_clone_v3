@@ -42,7 +42,7 @@ def city_delete(city_id):
         abort(404)
     storage.delete(city)
     storage.save()
-    return jsonify({}), 200
+    return make_response(jsonify({}), 200)
 
 
 @app_views.route(
@@ -57,14 +57,14 @@ def city_post(state_id):
     if state is None:
         abort(404)
     if data is None:
-        abort(400, "Not a JSON")
+        abort(400, description="Not a JSON")
     if 'name' not in data:
-        abort(400, "Missing name")
+        abort(400, description="Missing name")
     city = City(**data)
     city.state_id = state_id
-    city.save()
+    storage.save()
     city = city.to_dict()
-    return jsonify(city), 200
+    return make_response(jsonify(city), 200)
 
 
 @app_views.route(
@@ -79,11 +79,11 @@ def city_update(city_id):
         abort(404)
     data = request.get_json()
     if data is None:
-        abort(400, "Not a JSON")
+        abort(400, description="Not a JSON")
     ignored_keys = ["id", "created_at", "updated_at", "state_id"]
     for key, value in data.items():
         if key not in ignored_keys:
             setattr(city, key, value)
-    city.save()
+    storage.save()
     city = city.to_dict()
-    return jsonify(city), 200
+    return make_response(jsonify(city), 200)
