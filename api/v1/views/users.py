@@ -74,7 +74,7 @@ def user_put(user_id):
     data = request.get_json()
     if data is None:
         abort(400, "Not a JSON")
-    ignored_keys = ["id", "created_at", "updated_at"]
+    ignored_keys = ["id", "email", "created_at", "updated_at"]
     for k, v in data.items():
         if k not in ignored_keys:
             setattr(user, k, v)
