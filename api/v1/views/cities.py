@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+""" handle REST requests """
+
 from api.v1.views import app_views
 from flask import jsonify, request, abort, make_response
 from models import storage
