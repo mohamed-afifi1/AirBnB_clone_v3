@@ -79,11 +79,14 @@ class DBStorage:
         """
         return new obj form cls
         """
-        obj_dict = models.storage.all(cls)
-        matchstring = "{}.{}".format(cls.__name__, id)
-        for k, v in obj_dict.items():
-            if k == matchstring:
-                return v
+        if cls not in classes.values():
+            return None
+
+        all_cls = models.storage.all(cls)
+        for value in all_cls.values():
+            if (value.id == id):
+                return value
+
         return None
 
     def count(self, cls=None):
