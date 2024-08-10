@@ -13,17 +13,9 @@ from api.v1.views import app_views
 def states_all():
     """ returns list of all State objects """
     states_all = []
-    #print(f"=====test:::  {storage.all('State').values()}")
     states = storage.all("State").values()
     for state in states:
-        #print("=====test section========")
-        #print("- state itself: ", state)
-        #print("- type of one state", type(state))
-        #print("- state to dict", state.to_dict())
-        #print("- type state to dict", type(state.to_dict()))
-        print("- idddddddd state to dict", state.to_dict().get('id'))
         states_all.append(state.to_dict())
-        print("=====test section========")
     return jsonify(states_all)
 
 
@@ -32,15 +24,17 @@ def state_get(state_id):
     """ handles GET method """
 
     state = storage.get(State, state_id)
-    print("storage.get('State', state_id):::::", state)
     if state is None:
         abort(404)
     state = state.to_dict()
     return jsonify(state)
 
 
-@app_views.route('/states/<state_id>', methods=['DELETE'],
-        strict_slashes=False)
+@app_views.route(
+    '/states/<state_id>',
+    methods=['DELETE'],
+    strict_slashes=False
+)
 def state_delete(state_id):
     """ handles DELETE method """
     empty_dict = {}
@@ -62,23 +56,23 @@ def state_post():
         abort(400, "Missing name")
     state = State(**data)
     state.save()
-    state = state.to_json()
-    return jsonify(state), 201
+    state = state.to_dict()
+    return make_response(jsonify(state), 201)
 
 
-@app_views.route('/states/<state_id>', methods=['PUT'])
+@app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
 def state_put(state_id):
-    """ handles PUT method """
-    state = storage.get("State", state_id)
+    """ update a state with its id """
+    state = storage.get(State, state_id)
     if state is None:
         abort(404)
     data = request.get_json()
     if data is None:
         abort(400, "Not a JSON")
-    for key, value in data.items():
-        ignore_keys = ["id", "created_at", "updated_at"]
-        if key not in ignore_keys:
-            state.bm_update(key, value)
-    state.save()
-    state = state.to_json()
-    return jsonify(state), 200
+    ignored_keys = ["id", "created_at", "updated_at"]
+    for k, v in data.items():
+        if k not in ignored_keys:
+            setattr(state, k, v)
+    storage.save()
+    state = state.to_dict()
+    return make_response(jsonify(state), 200)
